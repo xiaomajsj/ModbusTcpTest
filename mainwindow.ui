@@ -433,6 +433,29 @@
      </rect>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>120</y>
+      <width>111</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Debug Input</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="TestLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>120</y>
+      <width>113</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
