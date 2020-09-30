@@ -33,9 +33,12 @@ public slots:
     void on_Connect_clicked();
 
     void onStateChanged();
-    void handleDeviceError();
+    void handleDeviceError(QModbusDevice::Error newError);
     void RefreshRegister(QModbusDataUnit::RegisterType table, int address, int size);
     void setRegister(const QString &value);
+
+    void coilChanged(int id);
+    void discreteInputChanged(int id);
 
 private:
     Ui::MainWindow *ui;
