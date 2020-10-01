@@ -144,6 +144,7 @@ void MainWindow::setRegister(const QString &value)
         {
             const quint16 id=quint16(QObject::sender()->property("ID").toUInt());
             ok=_server->setData(QModbusDataUnit::InputRegisters,id,value.toUShort(&ok,16));
+
         }
         else if(objectName.contains("HoldingReg"))
         {
@@ -203,36 +204,44 @@ void MainWindow::RefreshRegister(QModbusDataUnit::RegisterType table, int addres
         quint16 value;
         QString text;
 
-        //Check if there is match in Holding address
         bool CheckValid;
-        for(auto widget:registers)
-        {
-            CheckValid=widget->property("ID")==address+i ? true : false;
-            if(CheckValid){break;}
-        }
-        if(!CheckValid)
-        {
-            QString hint("Cant find matching address in current UI");
-            qDebug()<<hint;
-            statusBar()->showMessage(hint);
-            return;
-        }
 
-        //Check if there is match in coils
-        QRegularExpression regexp(QStringLiteral("Coil(?<ID>\\d+)"));
-        for (QAbstractButton *cbx : coilButtons.buttons())
+        switch(table)
         {
-            CheckValid=regexp.match(cbx->objectName()).captured("ID").toInt()==address+i ? true : false;
-            if(CheckValid){break;}
-        }
-        if(!CheckValid)
-        {
-            QString hint("Cant find matching address in current UI");
-            qDebug()<<hint;
-            statusBar()->showMessage(hint);
+        default:
             return;
+        case QModbusDataUnit::HoldingRegisters:
+            //Check if there is match in Holding address
+            for(int i=0;i<size;++i)
+            {
+                CheckValid=(registers.value(QStringLiteral("HoldingRegister%1").arg(address + i))->property("ID").toInt()==address+i )? true : false;
+                if(CheckValid){break;}
+            }
+            if(!CheckValid)
+            {
+                QString hint("Cant find matching address in current UI");
+                qDebug()<<hint;
+                statusBar()->showMessage(hint);
+                return;
+            }
+            break;
+        case QModbusDataUnit::Coils:
+            //Check if there is match in coils
+            QRegularExpression regexp(QStringLiteral("Coil(?<ID>\\d+)"));
+            for (QAbstractButton *cbx : coilButtons.buttons())
+            {
+                CheckValid=regexp.match(cbx->objectName()).captured("ID").toInt()==address+i ? true : false;
+                if(CheckValid){break;}
+            }
+            if(!CheckValid)
+            {
+                QString hint("Cant find matching address in current UI");
+                qDebug()<<hint;
+                statusBar()->showMessage(hint);
+                return;
+            }
+            break;
         }
-
 
         //pay attention to value. data() function will set &value as the current register data.
         switch(table)

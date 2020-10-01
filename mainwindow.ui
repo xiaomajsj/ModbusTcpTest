@@ -320,7 +320,7 @@
      <string>Server:</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="InputRegister0">
+   <widget class="QLineEdit" name="InputRegister1000">
     <property name="geometry">
      <rect>
       <x>320</x>
@@ -330,7 +330,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="InputRegister1">
+   <widget class="QLineEdit" name="InputRegister1001">
     <property name="geometry">
      <rect>
       <x>320</x>
@@ -340,7 +340,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="InputRegister2">
+   <widget class="QLineEdit" name="InputRegister1002">
     <property name="geometry">
      <rect>
       <x>320</x>
@@ -350,7 +350,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="InputRegister3">
+   <widget class="QLineEdit" name="InputRegister1100">
     <property name="geometry">
      <rect>
       <x>320</x>
@@ -360,7 +360,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="InputRegister4">
+   <widget class="QLineEdit" name="InputRegister1200">
     <property name="geometry">
      <rect>
       <x>320</x>
@@ -383,7 +383,7 @@
      <string>Holding Register</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="HoldingRegister0">
+   <widget class="QLineEdit" name="HoldingRegister1600">
     <property name="geometry">
      <rect>
       <x>540</x>
@@ -393,7 +393,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="HoldingRegister1">
+   <widget class="QLineEdit" name="HoldingRegister1601">
     <property name="geometry">
      <rect>
       <x>540</x>
@@ -403,7 +403,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="HoldingRegister2">
+   <widget class="QLineEdit" name="HoldingRegister1602">
     <property name="geometry">
      <rect>
       <x>540</x>
@@ -413,7 +413,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="HoldingRegister3">
+   <widget class="QLineEdit" name="HoldingRegister1603">
     <property name="geometry">
      <rect>
       <x>540</x>
