@@ -18,7 +18,7 @@ QT_END_NAMESPACE
 
 static const int InputRegisterAddress[]=
 {
-    1000,1001,1002,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,1111
+    1000,1001,1002,1100,1200,1300,1400,1500,1700,1800,1900,2000,1111
 };
 static const int HoldingRegisterAddress[]=
 {

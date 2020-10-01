@@ -98,6 +98,41 @@ void MainWindow::InitButton()
     //  When the text in lineEdit(InputRegister and HoldingRegister) is changed, slots are triggered.
     //  Also, when the coil and holding register is written by client, it will trigger RefreshRegister. Then, if the text is changed, it will trigger
     //  setRegisters to set the _server register data.
+
+    //Set input register labels as address
+    regexp.setPattern(QLatin1String("InputRegisterLabel(?<ID>\\d+)"));
+    const QList<QLabel *> labelInputReg = findChildren<QLabel *>(regexp);
+    for(QLabel *label : labelInputReg)
+    {
+        label->setProperty("ID", regexp.match(label->objectName()).captured("ID").toInt());
+    }
+
+    for(uint i=0;i<sizeof(InputRegisterAddress)/sizeof(InputRegisterAddress[0]);i++)
+    {
+        QString value;
+        for(QLabel *label : labelInputReg)
+        {
+            if(label->property("ID")==i){label->setText(value.number(InputRegisterAddress[i]));}
+        }
+    }
+
+    //Set input register labels as address
+    regexp.setPattern(QLatin1String("HoldingRegisterLabel(?<ID>\\d+)"));
+    const QList<QLabel *> labelHoldReg = findChildren<QLabel *>(regexp);
+    for(QLabel *label : labelHoldReg)
+    {
+        label->setProperty("ID", regexp.match(label->objectName()).captured("ID").toInt());
+    }
+
+    for(uint i=0;i<sizeof(HoldingRegisterAddress)/sizeof(HoldingRegisterAddress[0]);i++)
+    {
+        QString value;
+        for(QLabel *label : labelHoldReg)
+        {
+            if(label->property("ID")==i){label->setText(value.number(HoldingRegisterAddress[i]));}
+        }
+    }
+
 }
 
 void MainWindow::coilChanged(int id)

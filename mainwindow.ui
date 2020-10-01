@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>476</height>
+    <height>771</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -53,8 +53,8 @@
    <widget class="QCheckBox" name="Coil0">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>190</y>
+      <x>450</x>
+      <y>430</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -66,8 +66,8 @@
    <widget class="QCheckBox" name="Coil1">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>230</y>
+      <x>450</x>
+      <y>470</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -79,8 +79,8 @@
    <widget class="QCheckBox" name="Coil2">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>270</y>
+      <x>450</x>
+      <y>510</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -92,8 +92,8 @@
    <widget class="QCheckBox" name="Coil3">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>310</y>
+      <x>450</x>
+      <y>550</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -105,8 +105,8 @@
    <widget class="QCheckBox" name="Coil4">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>350</y>
+      <x>450</x>
+      <y>590</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -118,8 +118,8 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>160</y>
+      <x>450</x>
+      <y>400</y>
       <width>67</width>
       <height>17</height>
      </rect>
@@ -131,8 +131,8 @@
    <widget class="QCheckBox" name="DisInput0">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>190</y>
+      <x>520</x>
+      <y>430</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -144,8 +144,8 @@
    <widget class="QCheckBox" name="DisInput1">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>230</y>
+      <x>520</x>
+      <y>470</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -157,8 +157,8 @@
    <widget class="QCheckBox" name="DisInput2">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>270</y>
+      <x>520</x>
+      <y>510</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -170,8 +170,8 @@
    <widget class="QCheckBox" name="DisInput3">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>310</y>
+      <x>520</x>
+      <y>550</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -183,8 +183,8 @@
    <widget class="QCheckBox" name="DisInput4">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>350</y>
+      <x>520</x>
+      <y>590</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -196,8 +196,8 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>160</y>
+      <x>520</x>
+      <y>400</y>
       <width>101</width>
       <height>17</height>
      </rect>
@@ -209,20 +209,20 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>450</x>
       <y>160</y>
       <width>67</width>
-      <height>17</height>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string>Address</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QLabel" name="HoldingRegisterLabel0">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>450</x>
       <y>190</y>
       <width>67</width>
       <height>17</height>
@@ -232,10 +232,10 @@
      <string>0</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_6">
+   <widget class="QLabel" name="HoldingRegisterLabel1">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>450</x>
       <y>230</y>
       <width>67</width>
       <height>17</height>
@@ -245,10 +245,10 @@
      <string>1</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_7">
+   <widget class="QLabel" name="HoldingRegisterLabel2">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>450</x>
       <y>270</y>
       <width>67</width>
       <height>17</height>
@@ -258,10 +258,10 @@
      <string>2</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_8">
+   <widget class="QLabel" name="HoldingRegisterLabel3">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>450</x>
       <y>310</y>
       <width>67</width>
       <height>17</height>
@@ -271,10 +271,10 @@
      <string>3</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_9">
+   <widget class="QLabel" name="HoldingRegisterLabel4">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>450</x>
       <y>350</y>
       <width>67</width>
       <height>17</height>
@@ -287,7 +287,7 @@
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>110</x>
       <y>160</y>
       <width>121</width>
       <height>17</height>
@@ -323,7 +323,7 @@
    <widget class="QLineEdit" name="InputRegister1000">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>110</x>
       <y>190</y>
       <width>201</width>
       <height>26</height>
@@ -333,7 +333,7 @@
    <widget class="QLineEdit" name="InputRegister1001">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>110</x>
       <y>230</y>
       <width>201</width>
       <height>26</height>
@@ -343,7 +343,7 @@
    <widget class="QLineEdit" name="InputRegister1002">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>110</x>
       <y>270</y>
       <width>201</width>
       <height>26</height>
@@ -353,7 +353,7 @@
    <widget class="QLineEdit" name="InputRegister1100">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>110</x>
       <y>310</y>
       <width>201</width>
       <height>26</height>
@@ -363,7 +363,7 @@
    <widget class="QLineEdit" name="InputRegister1200">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>110</x>
       <y>350</y>
       <width>201</width>
       <height>26</height>
@@ -454,6 +454,268 @@
       <width>113</width>
       <height>26</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="InputRegister1300">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>390</y>
+      <width>201</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="InputRegister1400">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>430</y>
+      <width>201</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="InputRegister1500">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>470</y>
+      <width>201</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="InputRegister1700">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>510</y>
+      <width>201</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="InputRegister1800">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>550</y>
+      <width>201</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="InputRegister1900">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>590</y>
+      <width>201</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="InputRegister2000">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>630</y>
+      <width>201</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="InputRegisterLabel4">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>350</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>4</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="InputRegisterLabel3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>310</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>3</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="InputRegisterLabel2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>270</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>2</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_16">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>160</y>
+      <width>67</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Address</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="InputRegisterLabel0">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>190</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="InputRegisterLabel1">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>230</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>1</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="InputRegister1111">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>670</y>
+      <width>201</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="InputRegisterLabel7">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>470</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>2</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="InputRegisterLabel5">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>390</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="InputRegisterLabel8">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>510</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>3</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="InputRegisterLabel9">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>550</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>4</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="InputRegisterLabel6">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>430</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>1</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="InputRegisterLabel11">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>630</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>2</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="InputRegisterLabel12">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>670</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>3</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="InputRegisterLabel10">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>590</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>1</string>
     </property>
    </widget>
   </widget>
