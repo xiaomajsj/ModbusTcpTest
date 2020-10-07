@@ -21,7 +21,7 @@ void MainWindow::InitServer()
     _server=new QModbusTcpServer(this);
     _reg.insert(QModbusDataUnit::Coils, { QModbusDataUnit::Coils, 0, 10 });
     _reg.insert(QModbusDataUnit::DiscreteInputs, { QModbusDataUnit::DiscreteInputs, 0, 10 });
-    _reg.insert(QModbusDataUnit::InputRegisters, { QModbusDataUnit::InputRegisters, InputRegisterAddress[0], 1000 });
+    _reg.insert(QModbusDataUnit::InputRegisters, { QModbusDataUnit::InputRegisters, InputRegisterAddress[0], 1001 });
     _reg.insert(QModbusDataUnit::HoldingRegisters, { QModbusDataUnit::HoldingRegisters, HoldingRegisterAddress[0], 10 });
 
 
@@ -44,14 +44,26 @@ void MainWindow::on_pushButton_clicked()
 {
     int id=HoldingRegisterAddress[HoldingRegisterType::InputPower];
 
+    //test data set
     QString value="ffff";
     bool ok;
     _server->setData(QModbusDataUnit::HoldingRegisters,quint16(id),value.toUShort(&ok,16));
+    int test=1605;
+    _server->setData(QModbusDataUnit::HoldingRegisters,quint16(test),value.toUShort(&ok,16));
+    int test2=8;
+    _server->setData(QModbusDataUnit::Coils,quint16(test2),true);
+
     quint16 newValue;
     _server->data(QModbusDataUnit::HoldingRegisters,quint16(id),&newValue);
-
-
     ui->TestLineEdit->setText(value.setNum(newValue,16));
+
+    //test setter and getter
+    QHash<int,quint16> testData=GetInRegData();
+    testData.insert(InputRegisterAddress[InputRegisterType::State],0xffff);
+    testData.insert(1403,0xffff);
+    SetInRegData(testData);
+    qDebug()<<testData;
+
 }
 
 void MainWindow::InitButton()
@@ -67,7 +79,7 @@ void MainWindow::InitButton()
     for (QCheckBox *cbx : coils)
         coilButtons.addButton(cbx, regexp.match(cbx->objectName()).captured("ID").toInt());
     //set the server register if coil is changed
-    connect(&coilButtons, SIGNAL(buttonClicked(int)), this, SLOT(coilChanged(int)));
+    if(changeDataInWidget)connect(&coilButtons, SIGNAL(buttonClicked(int)), this, SLOT(coilChanged(int)));
 
     //Same, pack all DisInput checkbox
     regexp.setPattern(QStringLiteral("DisInput(?<ID>\\d+)"));
@@ -75,7 +87,7 @@ void MainWindow::InitButton()
     for (QCheckBox *cbx : discs)
         discreteButtons.addButton(cbx, regexp.match(cbx->objectName()).captured("ID").toInt());
     //set the server register if discret input is changed
-    connect(&discreteButtons, SIGNAL(buttonClicked(int)), this, SLOT(discreteInputChanged(int)));
+    if(changeDataInWidget)connect(&discreteButtons, SIGNAL(buttonClicked(int)), this, SLOT(discreteInputChanged(int)));
 
 
     //pack all lineEdit into registers with a QHash, each lineEdit is identified through QString in QHash<QString, QLineEdit *>
@@ -91,7 +103,7 @@ void MainWindow::InitButton()
         lineEdit->setPlaceholderText("Hexadecimal A-F, a-f, 0-9.");
 
         //Signal and slot information exchange: QLineEdit::textChanged(const QString &) has a qstring input, so it can directly pass to setRegister(const QString)
-        connect(lineEdit, &QLineEdit::textChanged, this, &MainWindow::setRegister);
+        if(changeDataInWidget)connect(lineEdit, &QLineEdit::textChanged, this, &MainWindow::setRegister);
     }
 
     //When the coil and diskret input is clicked, slots are triggered to set the _server register data
@@ -168,8 +180,49 @@ void MainWindow::handleDeviceError(QModbusDevice::Error newError)
     statusBar()->showMessage(_server->errorString(), 5000);
 }
 
+void MainWindow::SetInRegData(QHash<int,quint16> data)
+{
+    QMutexLocker locker(&_setInputDataMutex);
+    if(!_server){return;}
+    readOnlyLock=true;
+    for(uint i=0;i<sizeof(InputRegisterAddress)/sizeof(InputRegisterAddress[0]);i++)
+    {
+        QHash<int,quint16>::const_iterator i_data = data.find(InputRegisterAddress[i]);
+
+        //protect in case the address has multiple match
+//        while (i_data!= data.end() && i_data.key() == InputRegisterAddress[i]) {
+//            qDebug() << i_data.value() << Qt::endl;
+//            ++i;
+//        }
+        quint16 newData=i_data.value();
+        _server->setData(QModbusDataUnit::InputRegisters,quint16(InputRegisterAddress[i]),newData);
+    }
+}
+
+void MainWindow::SetHoldRegData(QHash<int,quint16> data)
+{
+    QMutexLocker locker(&_setHoldingDataMutex);
+    if(!_server){return;}
+    readOnlyLock=true;
+    for(uint i=0;i<sizeof(HoldingRegisterAddress)/sizeof(HoldingRegisterAddress[0]);i++)
+    {
+        QHash<int,quint16>::const_iterator i_data = data.find(HoldingRegisterAddress[i]);
+
+        //protect in case the address has multiple match
+//        while (i_data!= data.end() && i_data.key() == HoldingRegisterAddress[i]) {
+//            qDebug() << i_data.value() << Qt::endl;
+//            ++i;
+//        }
+        quint16 newData=i_data.value();
+        _server->setData(QModbusDataUnit::HoldingRegisters,quint16(HoldingRegisterAddress[i]),newData);
+    }
+}
+
+
+
 void MainWindow::setRegister(const QString &value)
 {
+    QMutexLocker locker(&_setDataFromWidgetMutex);
     if(!_server)return;
     const QString objectName=QObject::sender()->objectName();
     if(registers.contains(objectName))
@@ -227,10 +280,89 @@ void MainWindow::on_Connect_clicked()
         ui->Connect->setText("connect");
     }
 }
+
+QHash<int,quint16> MainWindow::GetInRegData()
+{
+    QHash<int,quint16> data;
+    data.clear();
+    if(!_server){return data;}
+
+    quint16 value;
+    int registerID;
+    for(uint i=0;i<sizeof(InputRegisterAddress)/sizeof(InputRegisterAddress[0]);i++)
+    {
+        registerID=InputRegisterAddress[i];
+        _server->data(QModbusDataUnit::InputRegisters,InputRegisterAddress[i],&value);
+        data.insert(registerID,value);
+    }
+
+    //Code to iterate through hash
+//    QHash<int, quint16>::const_iterator i = data.constBegin();
+//    while (i != data.constEnd()) {
+//        qDebug() << i.key() << ": " << i.value() << Qt::endl;
+//        ++i;
+//    }
+    return data;
+}
+
+QHash<int,quint16> MainWindow::GetHoldRegData()
+{
+    QHash<int,quint16> data;
+    data.clear();
+    if(!_server){return data;}
+
+    quint16 value;
+    int registerID;
+    for(uint i=0;i<sizeof(HoldingRegisterAddress)/sizeof(HoldingRegisterAddress[0]);i++)
+    {
+        registerID=HoldingRegisterAddress[i];
+        _server->data(QModbusDataUnit::HoldingRegisters,HoldingRegisterAddress[i],&value);
+        data.insert(registerID,value);
+    }
+    return data;
+}
+
+
+bool MainWindow::CheckInputHoldingValid(QModbusDataUnit::RegisterType table, int address)
+{
+    bool _valid=false;
+    QString _registerType;
+    switch(table)
+    {
+    default:break;
+    case QModbusDataUnit::InputRegisters:
+        _registerType="#Input Register#";
+        for(uint j=0;j<sizeof(InputRegisterAddress)/sizeof(InputRegisterAddress[0]);j++)
+        {
+            _valid=(InputRegisterAddress[j]==address)? true : false;
+            if(_valid){break;}
+        }
+        break;
+    case QModbusDataUnit::HoldingRegisters:
+        _registerType="#Holding Register#";
+        for(uint j=0;j<sizeof(HoldingRegisterAddress)/sizeof(HoldingRegisterAddress[0]);j++)
+        {
+            _valid=(HoldingRegisterAddress[j]==address)? true : false;
+            if(_valid){break;}
+        }
+        break;
+    }
+    if(!_valid)
+    {
+        QString hint="Cant find matching address " + QString("").setNum(address)+" of register type " + _registerType + " in current server";
+        qDebug()<<hint;
+        statusBar()->showMessage(hint);
+        return _valid;
+    }
+    return _valid;
+}
+
 void MainWindow::RefreshRegister(QModbusDataUnit::RegisterType table, int address, int size)
 {
     //Only the coils and HoldingRegisters can be both written and read. Input Registers and Discret input can only be read.
     //Therefore, only coils and holding Register is refreshed when receiving QModbusServer::dataWritten signal
+
+    //in order to create API, changings of input register and discret input are allowed
 
     //if(_server->state()==QModbusDevice::UnconnectedState)return;
 
@@ -245,20 +377,12 @@ void MainWindow::RefreshRegister(QModbusDataUnit::RegisterType table, int addres
         {
         default:
             return;
-        case QModbusDataUnit::HoldingRegisters:
+        case QModbusDataUnit::InputRegisters:
             //Check if there is match in Holding address
-            for(int i=0;i<size;++i)
-            {
-                CheckValid=(registers.value(QStringLiteral("HoldingRegister%1").arg(address + i))->property("ID").toInt()==address+i )? true : false;
-                if(CheckValid){break;}
-            }
-            if(!CheckValid)
-            {
-                QString hint("Cant find matching address in current UI");
-                qDebug()<<hint;
-                statusBar()->showMessage(hint);
-                return;
-            }
+            if(!CheckInputHoldingValid(table,address+i)){return;}
+            break;
+        case QModbusDataUnit::HoldingRegisters:
+            if(!CheckInputHoldingValid(table,address+i)){return;}
             break;
         case QModbusDataUnit::Coils:
             //Check if there is match in coils
@@ -270,7 +394,7 @@ void MainWindow::RefreshRegister(QModbusDataUnit::RegisterType table, int addres
             }
             if(!CheckValid)
             {
-                QString hint("Cant find matching address in current UI");
+                QString hint="Cant find matching address " + QString("").setNum(address+i)+" of register type #Coils# in current server";
                 qDebug()<<hint;
                 statusBar()->showMessage(hint);
                 return;
@@ -279,8 +403,11 @@ void MainWindow::RefreshRegister(QModbusDataUnit::RegisterType table, int addres
         }
 
         //pay attention to value. data() function will set &value as the current register data.
+        QMutexLocker locker(&_setDataMutex);
         switch(table)
         {
+        default:
+            break;
         case QModbusDataUnit::Coils:
             _server->data(QModbusDataUnit::Coils,quint16(address+i),&value);
             coilButtons.button(address+i)->setChecked(value);
@@ -290,7 +417,13 @@ void MainWindow::RefreshRegister(QModbusDataUnit::RegisterType table, int addres
             _server->data(QModbusDataUnit::HoldingRegisters,quint16(address+i),&value);
             registers.value(QStringLiteral("HoldingRegister%1").arg(address + i))->setText(text.setNum(value, 16));
             break;
-        default:
+        case QModbusDataUnit::InputRegisters:
+            if(readOnlyLock)
+            {
+                _server->data(QModbusDataUnit::InputRegisters,quint16(address+i),&value);
+                registers.value(QStringLiteral("InputRegister%1").arg(address + i))->setText(text.setNum(value, 16));
+            }
+            readOnlyLock=false;
             break;
         }
     }

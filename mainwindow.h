@@ -11,6 +11,8 @@
 #include <QMessageBox>
 #include <QButtonGroup>
 #include <QLineEdit>
+#include <QMutex>
+#include <QMutexLocker>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -51,6 +53,16 @@ public:
 
     void InitButton();
 
+    QHash<int,quint16> GetInRegData();
+    QHash<int,quint16> GetHoldRegData();
+
+    //Example:set State in inputregister as 1
+    //data.insert(InputRegisterAddress[InputRegisterType::State],1);
+    //SetInRegData(data);
+
+    void SetInRegData(QHash<int,quint16> data);
+    void SetHoldRegData(QHash<int,quint16> data);
+
 
 public slots:
     void on_Connect_clicked();
@@ -72,6 +84,8 @@ private:
     QModbusTcpServer *_server;
 
     QModbusDataUnitMap _reg;
+    bool readOnlyLock=false;
+    bool changeDataInWidget=true;
 
     QButtonGroup coilButtons;
     QButtonGroup discreteButtons;
@@ -79,6 +93,13 @@ private:
 
 
     QMessageBox msgbox;
+
+    QMutex _setDataMutex;
+    QMutex _setInputDataMutex;
+    QMutex _setHoldingDataMutex;
+    QMutex _setDataFromWidgetMutex;
+
+    bool CheckInputHoldingValid(QModbusDataUnit::RegisterType table, int address);
 
 };
 #endif // MAINWINDOW_H
