@@ -19,13 +19,12 @@ MainWindow::~MainWindow()
 void MainWindow::InitServer()
 {
     _server=new QModbusTcpServer(this);
-    _reg.insert(QModbusDataUnit::Coils, { QModbusDataUnit::Coils, 0, 10 });
-    _reg.insert(QModbusDataUnit::DiscreteInputs, { QModbusDataUnit::DiscreteInputs, 0, 10 });
-    _reg.insert(QModbusDataUnit::InputRegisters, { QModbusDataUnit::InputRegisters, InputRegisterAddress[0], 1001 });
-    _reg.insert(QModbusDataUnit::HoldingRegisters, { QModbusDataUnit::HoldingRegisters, HoldingRegisterAddress[0], 10 });
+    _reg.insert(QModbusDataUnit::Coils, { QModbusDataUnit::Coils, 0, quint16(10) });
+    _reg.insert(QModbusDataUnit::DiscreteInputs, { QModbusDataUnit::DiscreteInputs, 0, quint16(10) });
+    _reg.insert(QModbusDataUnit::InputRegisters, { QModbusDataUnit::InputRegisters, InputRegisterAddress[0], quint16(1001) });
+    _reg.insert(QModbusDataUnit::HoldingRegisters, { QModbusDataUnit::HoldingRegisters, HoldingRegisterAddress[0], quint16(10) });
 
-
-    _server->setMap(_reg);
+    Debugging();
 
     //Signal and slot information exchange: dataWritten(DataUnit,address,size) has three inputs, so they can directly pass to RefreshRegister(DataUnit,address,size)
     connect(_server, &QModbusServer::dataWritten,
@@ -40,22 +39,61 @@ void MainWindow::InitServer()
     ui->serverEdit->setMaximum(247);
 }
 
+void MainWindow::Debugging()
+{
+    QMapIterator<QModbusDataUnit::RegisterType, QModbusDataUnit> i(_reg);
+    qDebug()<<"The modbus server map is:";
+    while (i.hasNext()) {
+        i.next();
+        QVector<quint16> test;
+        test=i.value().values();
+        qDebug() <<i.key()<< ": " <<test << "Start address is: "<<i.value().startAddress();
+    }
+        qDebug()<<"The holding register map is:"<<_reg.value(QModbusDataUnit::HoldingRegisters).values();
+
+    //According to the source code, just a simple equal setting, shouldnt been any problems
+    qDebug()<<"Setting _reg as data map result: "<<_server->setMap(_reg);
+    QModbusDataUnit testUnit(QModbusDataUnit::HoldingRegisters, HoldingRegisterAddress[0], quint16(10));
+
+    QModbusDataUnit testUnit2(QModbusDataUnit::InputRegisters, InputRegisterAddress[0], quint16(1000));
+    QModbusDataUnit testUnit3(QModbusDataUnit::HoldingRegisters, -1, quint16(10));
+    qDebug()<<"Before setting the data map, holding register map is:"<<testUnit.values();
+    qDebug()<<"Before setting the data map, input register map is:"<<testUnit2.values();
+    QVector<quint16> test;
+    test.append(quint16(70));
+    test.append(quint16(50));
+    test.append(quint16(30));
+    test.append(quint16(10));
+    testUnit.setValues(test.mid(0,-1));
+    qDebug()<<"Test is dataunit setting is functioning"<<testUnit.values();
+
+    qDebug()<<"Set holding using setdata(QModbusdataunit) as 70,50,30,10 status:"<<_server->setData(testUnit);
+    _server->data(&testUnit3);
+    qDebug()<<"After setting the holding register as 70,50,30,10, holding register map is:"<<testUnit3.values()<<"start address is:"<<testUnit3.startAddress()<<"has:"<<testUnit3.valueCount();
+
+    testUnit3.setStartAddress(-1);
+    qDebug()<<"Set holding using setdata(QModbusdataunit::registertype,address,size) as 80 status:"<<_server->setData(QModbusDataUnit::HoldingRegisters,1600,quint16(80));
+    _server->data(&testUnit3);
+    qDebug()<<"After setting the holding register as 80 holding register map is:"<<testUnit3.values()<<"start address is:"<<testUnit3.startAddress()<<"has:"<<testUnit3.valueCount();
+
+    qDebug()<<"Getting Holding register status:"<<_server->data(&testUnit);
+    qDebug()<<"Getting Input register status:"<<_server->data(&testUnit2);
+    qDebug()<<"Getting Holding register status(get all):"<<_server->data(&testUnit3);
+    qDebug()<<"After setting the data map, holding register map is:"<<testUnit.values()<<"start address is:"<<testUnit.startAddress()<<"has:"<<testUnit.valueCount();
+    qDebug()<<"After setting the data map, input register map is:"<<testUnit2.values()<<"start address is:"<<testUnit2.startAddress()<<"has:"<<testUnit2.valueCount();
+    qDebug()<<"After setting the data map, holding register map is(get all):"<<testUnit3.values()<<"start address is:"<<testUnit3.startAddress();
+}
+
 void MainWindow::on_pushButton_clicked()
 {
-    int id=HoldingRegisterAddress[HoldingRegisterType::InputPower];
-
     //test data set
     QString value="ffff";
     bool ok;
-    _server->setData(QModbusDataUnit::HoldingRegisters,quint16(id),value.toUShort(&ok,16));
+
     int test=1605;
     _server->setData(QModbusDataUnit::HoldingRegisters,quint16(test),value.toUShort(&ok,16));
     int test2=8;
     _server->setData(QModbusDataUnit::Coils,quint16(test2),true);
-
-    quint16 newValue;
-    _server->data(QModbusDataUnit::HoldingRegisters,quint16(id),&newValue);
-    ui->TestLineEdit->setText(value.setNum(newValue,16));
 
     //test setter and getter
     QHash<int,quint16> testData=GetInRegData();
@@ -63,6 +101,34 @@ void MainWindow::on_pushButton_clicked()
     testData.insert(1403,0xffff);
     SetInRegData(testData);
     qDebug()<<testData;
+    quint16 newValue;
+    _server->data(QModbusDataUnit::InputRegisters,quint16(InputRegisterAddress[InputRegisterType::State]),&newValue);
+    qDebug()<<"Setting Input register"<<InputRegisterAddress[InputRegisterType::State]<<"as"<<value<<". Result is"<<newValue;
+
+    QModbusDataUnit testUnit(QModbusDataUnit::InputRegisters,1000,10);
+    _server->data(&testUnit);
+    qDebug()<<"After the setting, Input registers map is:"<<testUnit.values();
+
+
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    bool ok=true;
+    int id=HoldingRegisterAddress[HoldingRegisterType::InputPower];
+    QString value="ffff";
+    qDebug()<<"Test QString is"<<value<<". Convert to Ushort:"<<value.toUShort(&ok,16);
+    qDebug()<<"Setting holding register test result is:"<<_server->setData(QModbusDataUnit::HoldingRegisters,quint16(id),value.toUShort(&ok,16));
+    qDebug()<<QModbusDataUnit::HoldingRegisters;
+    quint16 newValue;
+    qDebug()<<"Getting holding register test result is:"<<_server->data(QModbusDataUnit::HoldingRegisters,quint16(id),&newValue);
+    ui->TestLineEdit2->setText(value.setNum(newValue,16));
+    qDebug()<<"Setting Holding register"<<id<<"as"<<value<<". Result is"<<newValue;
+
+    QModbusDataUnit testUnit(QModbusDataUnit::HoldingRegisters,id,quint16(10));
+    qDebug()<<"Before the setting, holding registers map is:"<<testUnit.values();
+    _server->data(&testUnit);
+    qDebug()<<"After the setting, holding registers map is:"<<testUnit.values();
 
 }
 
@@ -180,6 +246,8 @@ void MainWindow::handleDeviceError(QModbusDevice::Error newError)
     statusBar()->showMessage(_server->errorString(), 5000);
 }
 
+
+//**************still need to add register check****************//
 void MainWindow::SetInRegData(QHash<int,quint16> data)
 {
     QMutexLocker locker(&_setInputDataMutex);
@@ -428,5 +496,7 @@ void MainWindow::RefreshRegister(QModbusDataUnit::RegisterType table, int addres
         }
     }
 }
+
+
 
 

@@ -13,6 +13,8 @@
 #include <QLineEdit>
 #include <QMutex>
 #include <QMutexLocker>
+#include <QString>
+#include <QVector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -50,6 +52,7 @@ public:
     ~MainWindow();
 
     void InitServer();
+    void Debugging();
 
     void InitButton();
 
@@ -77,6 +80,9 @@ public slots:
 
 private slots:
     void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
 
 private:
     Ui::MainWindow *ui;
