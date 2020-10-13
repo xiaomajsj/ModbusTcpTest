@@ -16,48 +16,56 @@
 #include <QString>
 #include <QVector>
 
+
+
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui { class ChargeModbus; }
 QT_END_NAMESPACE
 
-static const int InputRegisterAddress[]=
+static const QList<int> InputRegisterAddress=
 {
-    1000,1001,1002,1100,1200,1300,1400,1500,1700,1800,1900,2000,1111
+    100,101,102,110,120,130,140,150,170,180,190,200,210,111
 };
-static const int HoldingRegisterAddress[]=
+static const QList<int> HoldingRegisterAddress=
 {
-    1600,1601,1602,1603
+    160,161,162,163,164,165
 };
 
 enum InputRegisterType
 {
     State=0,
-    ChargeState,
-    StationState
+    ChargingVoltage=3,
+    ChargeCurrent,
+    ChargePower,
+    ChargedTime,
+    ChargedEnergy,
+    SOC,
+    ConnectorType,
+    MaxChargePower,
+    MinChargePOwer,
+    PaymentConfirm,
+    ErrorCode
 };
 enum HoldingRegisterType
 {
     InputPower=0,
-    Suspend,
     ChargeControl,
+    ChargerID,
+    SessionID,
+    MoneyBooked,
     CommunicationTimeOut
 };
 
-class MainWindow : public QMainWindow
+class ChargeModbus : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    ChargeModbus(QWidget *parent = nullptr);
+    ~ChargeModbus();
 
-    void InitServer();
-    void Debugging();
-
-    void InitButton();
-
-    QHash<int,quint16> GetInRegData();
-    QHash<int,quint16> GetHoldRegData();
+    void Connect();
+    void Disconnect();
 
     //Example:set State in inputregister as 1
     //data.insert(InputRegisterAddress[InputRegisterType::State],1);
@@ -65,6 +73,8 @@ public:
 
     void SetInRegData(QHash<int,quint16> data);
     void SetHoldRegData(QHash<int,quint16> data);
+    QHash<int,quint16> GetInRegData();
+    QHash<int,quint16> GetHoldRegData();
 
 
 public slots:
@@ -85,7 +95,7 @@ private slots:
 
 
 private:
-    Ui::MainWindow *ui;
+    Ui::ChargeModbus *ui;
     QModbusTcpClient *_client;
     QModbusTcpServer *_server;
 
@@ -106,6 +116,10 @@ private:
     QMutex _setDataFromWidgetMutex;
 
     bool CheckInputHoldingValid(QModbusDataUnit::RegisterType table, int address);
+
+    void InitServer();
+    void Debugging();
+    void InitButton();
 
 };
 #endif // MAINWINDOW_H
