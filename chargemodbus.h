@@ -10,15 +10,21 @@
 #include <QUrl>
 #include <QMessageBox>
 #include <QButtonGroup>
-#include <QLineEdit>
 #include <QMutex>
 #include <QMutexLocker>
 #include <QString>
 #include <QVector>
+#include <QProcess>
+#include <QTimer>
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+#include <QByteArray>
+
 
 
 
 QT_BEGIN_NAMESPACE
+class QLineEdit;
 namespace Ui { class ChargeModbus; }
 QT_END_NAMESPACE
 
@@ -77,7 +83,7 @@ public:
     QHash<int,quint16> GetHoldRegData();
 
 
-public slots:
+private Q_SLOTS:
     void on_Connect_clicked();
 
     void onStateChanged();
@@ -88,16 +94,18 @@ public slots:
     void coilChanged(int id);
     void discreteInputChanged(int id);
 
-private slots:
     void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
 
-
+    void SetIPAddress();
 private:
+
+    QTimer *setIPTimer;
+
     Ui::ChargeModbus *ui;
     QModbusTcpClient *_client;
-    QModbusTcpServer *_server;
+    QModbusTcpServer *_server=nullptr;
 
     QModbusDataUnitMap _reg;
     bool readOnlyLock=false;
@@ -106,6 +114,8 @@ private:
     QButtonGroup coilButtons;
     QButtonGroup discreteButtons;
     QHash<QString, QLineEdit *> registers;
+
+    QProcess setIP;
 
 
     QMessageBox msgbox;
@@ -120,6 +130,9 @@ private:
     void InitServer();
     void Debugging();
     void InitButton();
+    void InitTimer();
+    void SetIP(QString _ipaddr="192.168.1.100", QString _netmask="255.255.255.0");
+
 
 };
 #endif // MAINWINDOW_H

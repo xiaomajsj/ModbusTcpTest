@@ -392,6 +392,9 @@
       <height>26</height>
      </rect>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::StrongFocus</enum>
+    </property>
    </widget>
    <widget class="QLineEdit" name="HoldingRegister161">
     <property name="geometry">

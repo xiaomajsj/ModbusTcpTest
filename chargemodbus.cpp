@@ -10,6 +10,7 @@ ChargeModbus::ChargeModbus(QWidget *parent)
     changeDataInWidget=true;
     InitServer();
     InitButton();
+    InitTimer();
 
 }
 
@@ -17,6 +18,34 @@ ChargeModbus::~ChargeModbus()
 {
     delete ui;
 }
+void ChargeModbus::InitTimer()
+{
+    setIPTimer=new QTimer(this);
+    setIPTimer->setInterval(500);
+    connect(setIPTimer,&QTimer::timeout,this,&ChargeModbus::SetIPAddress);
+    setIPTimer->start();
+
+    setIP.setProcessEnvironment(QProcessEnvironment::systemEnvironment());
+    //setIP.setProcessChannelMode(QProcess::ForwardedChannels);
+}
+
+void ChargeModbus::SetIP(QString _ipaddr,QString _netmask)
+{
+    QString command="ifconfig eth0 "+_ipaddr+" netmask "+_netmask;
+    if(setIP.state()==QProcess::NotRunning)
+    {
+        setIP.start(command);
+        setIP.waitForStarted();
+    }
+}
+
+void ChargeModbus::SetIPAddress()
+{
+    QString _ip=ui->Port->text();
+    _ip.remove(QString(":502"));
+    SetIP(_ip);
+}
+
 void ChargeModbus::InitServer()
 {
     _server=new QModbusTcpServer(this);
@@ -318,7 +347,6 @@ void ChargeModbus::SetHoldRegData(QHash<int,quint16> data)
 
 void ChargeModbus::setRegister(const QString &value)
 {
-    QMutexLocker locker(&_setDataFromWidgetMutex);
     if(!_server)return;
     const QString objectName=QObject::sender()->objectName();
     if(registers.contains(objectName))
@@ -465,6 +493,7 @@ void ChargeModbus::RefreshRegister(QModbusDataUnit::RegisterType table, int addr
     {
         quint16 value;
         QString text;
+        QByteArray display;
 
         bool CheckValid;
 
@@ -498,7 +527,6 @@ void ChargeModbus::RefreshRegister(QModbusDataUnit::RegisterType table, int addr
         }
 
         //pay attention to value. data() function will set &value as the current register data.
-        QMutexLocker locker(&_setDataMutex);
         switch(table)
         {
         default:
@@ -507,16 +535,18 @@ void ChargeModbus::RefreshRegister(QModbusDataUnit::RegisterType table, int addr
             _server->data(QModbusDataUnit::Coils,quint16(address+i),&value);
             coilButtons.button(address+i)->setChecked(value);
             break;
-            break;
         case QModbusDataUnit::HoldingRegisters:
             _server->data(QModbusDataUnit::HoldingRegisters,quint16(address+i),&value);
-            registers.value(QStringLiteral("HoldingRegister%1").arg(address + i))->setText(text.setNum(value, 16));
+            //text=text.setNum(value,16);
+            registers.value(QStringLiteral("HoldingRegister%1").arg(address + i))->setText(text.setNum(value,16));
             break;
         case QModbusDataUnit::InputRegisters:
+            _server->data(QModbusDataUnit::InputRegisters,quint16(address+i),&value);
             if(readOnlyLock)
             {
                 _server->data(QModbusDataUnit::InputRegisters,quint16(address+i),&value);
-                registers.value(QStringLiteral("InputRegister%1").arg(address + i))->setText(text.setNum(value, 16));
+                //text=value==0?"":text.setNum(value,16);
+                registers.value(QStringLiteral("InputRegister%1").arg(address + i))->setText(text.setNum(value,16));
             }
             readOnlyLock=false;
             break;
