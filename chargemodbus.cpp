@@ -11,6 +11,7 @@ ChargeModbus::ChargeModbus(QWidget *parent)
     InitServer();
     InitButton();
     InitTimer();
+    ResizeAll();
 
 }
 
@@ -18,6 +19,7 @@ ChargeModbus::~ChargeModbus()
 {
     delete ui;
 }
+
 void ChargeModbus::InitTimer()
 {
     setIPTimer=new QTimer(this);
@@ -44,6 +46,26 @@ void ChargeModbus::SetIPAddress()
     QString _ip=ui->Port->text();
     _ip.remove(QString(":502"));
     SetIP(_ip);
+}
+
+void ChargeModbus::ResizeAll()
+{
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect  screenGeometry = screen->geometry();
+
+    double _screenWidth = screenGeometry.width();
+    double _screenHeight = screenGeometry.height();
+
+    double resizeParameterW=(double)_screenWidth/this->width();
+    double resizeParameterH=(double)_screenHeight/this->height();
+
+    this->resize(_screenWidth,_screenHeight);
+
+    QList<QWidget *> widgets=this->findChildren<QWidget *>();
+    for(auto &a : widgets)
+    {
+        _resize.ObjectResize(a,resizeParameterW,resizeParameterH);
+    }
 }
 
 void ChargeModbus::InitServer()
@@ -202,7 +224,7 @@ void ChargeModbus::InitButton()
         lineEdit->setProperty("ID", regexp.match(lineEdit->objectName()).captured("ID").toInt());
         lineEdit->setValidator(new QRegularExpressionValidator(QRegularExpression(QStringLiteral("[0-9a-f]{0,4}"),
             QRegularExpression::CaseInsensitiveOption), this));
-        lineEdit->setPlaceholderText("Hexadecimal A-F, a-f, 0-9.");
+        lineEdit->setPlaceholderText("Hex/decimal A-F, a-f, 0-9.");
 
         //Signal and slot information exchange: QLineEdit::textChanged(const QString &) has a qstring input, so it can directly pass to setRegister(const QString)
         if(changeDataInWidget)connect(lineEdit, &QLineEdit::textChanged, this, &ChargeModbus::setRegister);
@@ -226,7 +248,7 @@ void ChargeModbus::InitButton()
         QString value;
         for(QLabel *label : labelInputReg)
         {
-            if(label->property("ID")==i){label->setText(value.number(InputRegisterAddress.at(i)));}
+            if(label->property("ID")==i){label->setText(value.number(InputRegisterAddress.at(i))+": "+InputRegisterName.at(i));}
         }
     }
 
@@ -244,7 +266,7 @@ void ChargeModbus::InitButton()
         QString value;
         for(QLabel *label : labelHoldReg)
         {
-            if(label->property("ID")==i){label->setText(value.number(HoldingRegisterAddress.at(i)));}
+            if(label->property("ID")==i){label->setText(value.number(HoldingRegisterAddress.at(i))+": "+HoldingRegisterName.at(i));}
         }
     }
 

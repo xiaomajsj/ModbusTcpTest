@@ -17,10 +17,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     chargemodbus.cpp \
-    main.cpp
+    main.cpp \
+    resize.cpp
 
 HEADERS += \
-    chargemodbus.h
+    chargemodbus.h \
+    resize.h
 
 FORMS += \
     chargemodbus.ui

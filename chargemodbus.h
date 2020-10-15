@@ -20,8 +20,7 @@
 #include <QRegularExpression>
 #include <QByteArray>
 
-
-
+#include "resize.h"
 
 QT_BEGIN_NAMESPACE
 class QLineEdit;
@@ -30,11 +29,19 @@ QT_END_NAMESPACE
 
 static const QList<int> InputRegisterAddress=
 {
-    100,101,102,110,120,130,140,150,170,180,190,200,210,111
+    100,101,102,110,120,130,140,150,170,180,190,200,210,220,111
 };
 static const QList<int> HoldingRegisterAddress=
 {
-    160,161,162,163,164,165
+    160,161,162,163,164
+};
+static const QList<QString> InputRegisterName=
+{
+    "State","","","Voltage","Current","Power","Time","ChargedEnerge","SOC","ConnectorType","MaxPower","MinPower","PaymentConfirm","MoneyBooked","Error"
+};
+static const QList<QString> HoldingRegisterName=
+{
+    "InputPower","ChargeControl","ChargerID","SessionID","TimeOut"
 };
 
 enum InputRegisterType
@@ -50,6 +57,7 @@ enum InputRegisterType
     MaxChargePower,
     MinChargePOwer,
     PaymentConfirm,
+    MoneyBooked,
     ErrorCode
 };
 enum HoldingRegisterType
@@ -58,7 +66,6 @@ enum HoldingRegisterType
     ChargeControl,
     ChargerID,
     SessionID,
-    MoneyBooked,
     CommunicationTimeOut
 };
 
@@ -116,6 +123,7 @@ private:
     QHash<QString, QLineEdit *> registers;
 
     QProcess setIP;
+    Resize _resize;
 
 
     QMessageBox msgbox;
@@ -132,6 +140,7 @@ private:
     void InitButton();
     void InitTimer();
     void SetIP(QString _ipaddr="192.168.1.100", QString _netmask="255.255.255.0");
+    void ResizeAll();
 
 
 };

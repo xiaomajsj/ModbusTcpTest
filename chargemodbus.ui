@@ -54,7 +54,7 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>430</y>
+      <y>460</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -67,7 +67,7 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>470</y>
+      <y>490</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -80,7 +80,7 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>510</y>
+      <y>520</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -93,7 +93,7 @@
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>430</y>
+      <y>460</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -106,7 +106,7 @@
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>470</y>
+      <y>490</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -119,7 +119,7 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>400</y>
+      <y>430</y>
       <width>67</width>
       <height>17</height>
      </rect>
@@ -132,7 +132,7 @@
     <property name="geometry">
      <rect>
       <x>390</x>
-      <y>430</y>
+      <y>460</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -145,7 +145,7 @@
     <property name="geometry">
      <rect>
       <x>390</x>
-      <y>470</y>
+      <y>490</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -158,7 +158,7 @@
     <property name="geometry">
      <rect>
       <x>390</x>
-      <y>510</y>
+      <y>520</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -171,7 +171,7 @@
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>430</y>
+      <y>460</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -184,7 +184,7 @@
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>470</y>
+      <y>490</y>
       <width>92</width>
       <height>23</height>
      </rect>
@@ -197,7 +197,7 @@
     <property name="geometry">
      <rect>
       <x>390</x>
-      <y>400</y>
+      <y>430</y>
       <width>101</width>
       <height>17</height>
      </rect>
@@ -225,7 +225,7 @@
       <x>540</x>
       <y>190</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -238,7 +238,7 @@
       <x>540</x>
       <y>230</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -251,7 +251,7 @@
       <x>540</x>
       <y>270</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -264,7 +264,7 @@
       <x>540</x>
       <y>310</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -277,7 +277,7 @@
       <x>540</x>
       <y>350</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -535,7 +535,7 @@
       <x>30</x>
       <y>350</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -548,7 +548,7 @@
       <x>30</x>
       <y>310</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -561,7 +561,7 @@
       <x>30</x>
       <y>270</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -587,7 +587,7 @@
       <x>30</x>
       <y>190</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -600,7 +600,7 @@
       <x>30</x>
       <y>230</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -611,7 +611,7 @@
     <property name="geometry">
      <rect>
       <x>360</x>
-      <y>350</y>
+      <y>390</y>
       <width>141</width>
       <height>26</height>
      </rect>
@@ -623,7 +623,7 @@
       <x>30</x>
       <y>470</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -636,7 +636,7 @@
       <x>30</x>
       <y>390</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -649,7 +649,7 @@
       <x>30</x>
       <y>510</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -662,7 +662,7 @@
       <x>280</x>
       <y>190</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -675,7 +675,7 @@
       <x>30</x>
       <y>430</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -688,20 +688,20 @@
       <x>280</x>
       <y>270</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
      <string>2</string>
     </property>
    </widget>
-   <widget class="QLabel" name="InputRegisterLabel12">
+   <widget class="QLabel" name="InputRegisterLabel14">
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>350</y>
+      <y>390</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -714,7 +714,7 @@
       <x>280</x>
       <y>230</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -770,13 +770,13 @@
      <string>Input Register</string>
     </property>
    </widget>
-   <widget class="QLabel" name="InputRegisterLabel13">
+   <widget class="QLabel" name="InputRegisterLabel12">
     <property name="geometry">
      <rect>
       <x>280</x>
       <y>310</y>
       <width>67</width>
-      <height>17</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -793,27 +793,27 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="HoldingRegisterLabel5">
+   <widget class="QLineEdit" name="InputRegister220">
     <property name="geometry">
      <rect>
-      <x>540</x>
-      <y>390</y>
-      <width>67</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>4</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="HoldingRegister165">
-    <property name="geometry">
-     <rect>
-      <x>620</x>
-      <y>390</y>
+      <x>360</x>
+      <y>350</y>
       <width>141</width>
       <height>26</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="InputRegisterLabel13">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>350</y>
+      <width>67</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>3</string>
     </property>
    </widget>
   </widget>
